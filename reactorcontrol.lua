@@ -26,7 +26,7 @@ end
 
 function updateScreen()
     local index = 0
-    for turbine, _ in turbines do
+    for turbine, _ in ipairs(turbines) do
         print("Turbine " .. index .. " | Status: " .. isActive(component.invoke(turbine, "getActive")) .. " | Power Production: " .. component.invoke(turbine, "getEnergyProducedLastTick") .. "RF/t")
         index = index + 1
     end
@@ -47,7 +47,7 @@ end
 function engageSingleTurbine()
     print("Engaging Turbine")
     
-    for turbine, _ in turbines do
+    for turbine, _ in ipairs(turbines) do
         if not component.invoke(turbine, "getActive") then 
             component.invoke(turbine, "setActive", true)
             component.invoke(turbine, "setInductorEngaged", true)
@@ -59,7 +59,7 @@ end
 function disengageSingleTurbine()
     print("Disengaging Turbine")
     
-    for turbine, _ in turbines do
+    for turbine, _ in ipairs(turbines) do
         if component.invoke(turbine, "getActive") then 
             component.invoke(turbine, "setActive", false)
             component.invoke(turbine, "setInductorEngaged", false)
@@ -131,7 +131,7 @@ function initialTune()
 
     print("Initial Tuning Turbines")
     local index = 1
-    for address, _ in turbines do
+    for address, _ in ipairs(turbines) do
         table.insert(turbineThreads, thread.create(tuneTurbine,address,index))
         index = index + 1
     end
@@ -167,7 +167,7 @@ end
 function countEntries(tabl)
     local count = 0
 
-    for _,_ in pairs(tabl) do
+    for _,_ in ipairs(tabl) do
         count = count + 1
     end
 
@@ -183,7 +183,7 @@ while loo do
     
     activeTurbines = {}
     
-    for turbine,_ in turbines do
+    for turbine,_ in ipairs(turbines) do
         if component.invoke(turbine, "getActive") then
             table.insert(activeTurbines, turbine)
         end
