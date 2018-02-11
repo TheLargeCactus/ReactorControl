@@ -11,6 +11,8 @@ capacitor = component.capacitor_bank
 reactor = component.br_reactor
 gpu = component.gpu
 
+test = "ok"
+
 reactorPercentProduction = 0
 turbineMaxProduction = 0
 
