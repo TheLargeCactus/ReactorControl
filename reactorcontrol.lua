@@ -69,6 +69,7 @@ function disengageSingleTurbine()
 end
 
 function tuneReactor()
+    print ("Tuning Reactor")
     reactor.setAllControlRodLevels(0)
     
     while not reactorStable() do
@@ -77,14 +78,17 @@ function tuneReactor()
 
     local requiredSteam = reactor.getHotFluidProducedLastTick()
 
+    print("Maximum Steam Required: " .. requiredSteam .. "mB")
+
     --set control rod levels
     local reactorRodRemovalLevel = math.ceil(requiredSteam / reactorPercentProduction)
 
     reactor.setAllControlRodLevels(100 - reactorRodRemovalLevel)
 
+    print("Setting Control Rods to " .. 100 - reactorRodRemovalLevel .. "% inserted")
     return
 
-
+    print("Finished Tuning Reactor")
 end
 
 function tuneTurbine(address, index)
