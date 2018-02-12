@@ -70,13 +70,15 @@ end
 
 function tuneReactor()
     print ("Tuning Reactor")
-    reactor.setAllControlRodLevels(0)
     
-    while not reactorStable() do
-        --nothing
+    local active = 0
+    for address, _ in pairs(turbines) do
+        if component.invoke(address, "isActive") then
+            active = active + 1
+        end
     end
 
-    local requiredSteam = reactor.getHotFluidProducedLastTick()
+    local requiredSteam = 2000 * active
 
     print("Maximum Steam Required: " .. requiredSteam .. "mB | Steam production per fuel rod level: " .. reactorPercentProduction .. "mB")
 
@@ -168,8 +170,6 @@ function reactorStable()
     return math.abs(current-last) < 0.5
     
 end
-    
-
 
 function countEntries(tabl)
     local count = 0
