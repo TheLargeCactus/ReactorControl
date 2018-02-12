@@ -160,10 +160,12 @@ function quit(_,_,_,ch)
 end
 
 function reactorStable()
-    local last = reactor.getHotFluidProducedLastTick()
-    local current = reactor.getHotFluidProducedLastTick()
+    local last = reactor.getFuelTemperature()
+    os.sleep(1)
+    local current = reactor.getFuelTemperature()
 
-    return math.abs(current - last) < 2
+    return math.abs(current-last) < 0.5
+    
 end
     
 
