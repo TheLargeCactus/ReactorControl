@@ -133,6 +133,7 @@ function initialTune()
 
     reactor.setAllControlRodLevels(0)
 
+    print("Finished Initial Tuning Reactor")
     print("Initial Tuning Turbines")
     local index = 1
     for address, _ in pairs(turbines) do
