@@ -78,7 +78,7 @@ function tuneReactor()
 
     local requiredSteam = reactor.getHotFluidProducedLastTick()
 
-    print("Maximum Steam Required: " .. requiredSteam .. "mB")
+    print("Maximum Steam Required: " .. requiredSteam .. "mB | Steam production per fuel rod level: " .. reactorPercentProduction .. "mB")
 
     --set control rod levels
     local reactorRodRemovalLevel = math.ceil(requiredSteam / reactorPercentProduction)
