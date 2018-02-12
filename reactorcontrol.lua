@@ -73,7 +73,7 @@ function tuneReactor()
     
     local active = 0
     for address, _ in pairs(turbines) do
-        if component.invoke(address, "isActive") then
+        if component.invoke(address, "getActive") then
             active = active + 1
         end
     end
