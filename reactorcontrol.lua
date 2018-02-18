@@ -200,6 +200,8 @@ function engageAllTurbines()
         component.invoke(a, "setActive",true)
         component.invoke(a, "setInductorEngaged", true)
     end
+
+    tuneReactor()
 end
 
 --main
