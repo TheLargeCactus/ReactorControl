@@ -195,6 +195,12 @@ function checkOverride()
     end
 end
 
+function engageAllTurbines()
+    for a,i in turbines do
+        component.invoke(a, "setActive",true)
+        component.invoke(a, "setInductorEngaged", true)
+    end
+end
 
 --main
 event.register("key_down", quit)
