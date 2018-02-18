@@ -31,7 +31,11 @@ function updateScreen()
         index = index + 1
     end
 
-    print("Power Consumption: " .. capacitor.getAverageOutputPerTick() .. "RF/t | Power Production: " .. totalEnergyProduced() .. "RF/t")
+    print("Power Consumption: " .. capacitor.getAverageOutputPerTick() .. "RF/t | Power Production: " .. totalEnergyProduced() .. "RF/t | Energy Storage: " .. getEnergyPercent() .. "%" )
+end
+
+function getEnergyPercent()
+    return capacitor.getEnergyStored() / capacitor.getMaxEnergyStored() * 100
 end
 
 function totalEnergyProduced()
@@ -181,10 +185,22 @@ function countEntries(tabl)
     return count
 end
 
+function checkOverride()
+    if capacitor.getEnergyStored() < capacitor.getMaxEnergyStored() * 0.3 then
+        override = true
+    end
+
+    if capacitor.getEnergyStored() > capacitor.getMaxEnergyStored() * 0.9 then
+        override = false
+    end
+end
+
+
 --main
 event.register("key_down", quit)
 
 initialTune()
+override = false
 
 while loo do
     
@@ -196,20 +212,26 @@ while loo do
         end
     end
     
-    if capacitor.getAverageOutputPerTick() < totalEnergyProduced() then
-        if capacitor.getAverageOutputPerTick() > totalEnergyProduced(activeTurbines) - component.invoke(activeTurbines[1],"getEnergyProducedLastTick") then
-            --do nothing
-        else
-            disengageSingleTurbine()
+    checkOverride()
+
+    if not override then
+        if capacitor.getAverageOutputPerTick() < totalEnergyProduced() then
+            if capacitor.getAverageOutputPerTick() > totalEnergyProduced(activeTurbines) - component.invoke(activeTurbines[1],"getEnergyProducedLastTick") then
+                --do nothing
+            else
+                disengageSingleTurbine()
+                tuneReactor()
+            end
+        end
+    
+        if capacitor.getAverageOutputPerTick() > totalEnergyProduced(activeTurbines) and countEntries(activeTurbines) < countEntries(turbines) then
+            engageSingleTurbine()
             tuneReactor()
         end
+    else
+        engageAllTurbines()
+        print("Override Engaged")
     end
-    
-    if capacitor.getAverageOutputPerTick() > totalEnergyProduced(activeTurbines) and countEntries(activeTurbines) < countEntries(turbines) then
-        engageSingleTurbine()
-        tuneReactor()
-    end
-    
     
     
     updateScreen()
