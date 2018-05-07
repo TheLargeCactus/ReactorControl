@@ -1,3 +1,5 @@
+--Reactor Control Program
+--Made for Extreme Reactors/Computronics/OpenComputers
 component = require("component")
 term = require("term")
 event = require("event")
